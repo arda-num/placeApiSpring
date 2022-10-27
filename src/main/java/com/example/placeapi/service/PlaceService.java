@@ -5,6 +5,7 @@ import com.example.placeapi.model.PlaceResponse;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -25,20 +26,24 @@ public class PlaceService {
 
     // caching for 5 min -> caffeine -> redis
     // favori işaretleme endpointi
-    // favorileri listeleyen endpoint getALl()
+    // favorileri listeleyen endpoint getAll()
     // favori database'i
     // Angular önyüz
     // springdata mongodb
 
+    @Cacheable(value = "address_cache")
     public List<Place> searchPlace(float latitude, float longitude) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(SEARCH_URL)
                 .queryParam("ll", latitude + "," + longitude); // uri
 
+
         PlaceResponse response = restTemplate.getForObject(builder.build().toUri(), PlaceResponse.class);
 
         List<Place> results = response.getResults();
-        results.forEach(place -> log.info("place: " + place));
+
+        //results.forEach(place -> log.info("place: " + place));
+
         return results;
 
     }
