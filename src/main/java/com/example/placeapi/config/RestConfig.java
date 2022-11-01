@@ -1,5 +1,6 @@
 package com.example.placeapi.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -11,13 +12,16 @@ import java.util.Collections;
 @Configuration
 public class RestConfig {
 
+    @Value("${foursquare.apikey}")
+    private String apiKey;
+
     @Bean
     public RestTemplate placeApiRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getInterceptors().add((request, body, execution) -> {
             HttpHeaders headers = request.getHeaders();
             headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            headers.add("Authorization", "fsq38jf5s6BtxsM5GasJ/3pdhr7HlOSL2O6cjpiwegCvd90="); // TODO
+            headers.add("Authorization", apiKey); // TODO add value annotations
             return execution.execute(request, body);
         });
         return restTemplate;

@@ -2,6 +2,7 @@ package com.example.placeapi.service;
 
 import com.example.placeapi.model.Place;
 import com.example.placeapi.model.PlaceResponse;
+import com.example.placeapi.repository.PlaceRepository;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,17 +22,20 @@ public class PlaceService {
     private final static String SEARCH_URL = BASE_URL + "/places/search";
 
     @Autowired
+    private PlaceRepository placeRepository;
+    @Autowired
     @Qualifier("placeApiRestTemplate")
     private RestTemplate restTemplate;
 
-    // caching for 5 min -> caffeine -> redis
+    // caching for 5 min -> caffeine -> redis // done
+    // springdata mongodb
     // favori işaretleme endpointi
     // favorileri listeleyen endpoint getAll()
     // favori database'i
     // Angular önyüz
-    // springdata mongodb
 
-    @Cacheable(value = "address_cache")
+
+    @Cacheable("placeSearchCache")
     public List<Place> searchPlace(float latitude, float longitude) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(SEARCH_URL)
@@ -40,9 +44,17 @@ public class PlaceService {
 
         PlaceResponse response = restTemplate.getForObject(builder.build().toUri(), PlaceResponse.class);
 
-        List<Place> results = response.getResults();
+        List<Place> results = null;
+        if (response != null) {
+            results = response.getResults();
+            results.forEach(place -> {
+                        log.info("Found a place: " + place + "\n Saving to database...");
+                        placeRepository.save(place); // favoriler silinir!!!
+                    }
+            );
 
-        //results.forEach(place -> log.info("place: " + place));
+
+        }
 
         return results;
 

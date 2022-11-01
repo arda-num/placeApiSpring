@@ -24,7 +24,7 @@ public class PlaceController {
     @PostMapping
     public List<Place> searchPlace(@RequestBody SearchPlaceQuery searchPlaceQuery) {
 
-        StopWatch stopWatch = new StopWatch("arda");
+        StopWatch stopWatch = new StopWatch("arda"); // AOP ile logla. how to define annotations manually?
         stopWatch.start();
         List<Place> places = placeService.searchPlace(searchPlaceQuery.getLatitude(), searchPlaceQuery.getLongitude());
 
@@ -33,5 +33,4 @@ public class PlaceController {
 
         return places;
     }
-
 }
