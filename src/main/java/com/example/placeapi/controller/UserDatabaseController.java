@@ -5,6 +5,7 @@ import com.example.placeapi.model.User;
 import com.example.placeapi.model.UserRegisterQueryInfo;
 import com.example.placeapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,13 @@ public class UserDatabaseController {
     private UserRepository userRepository;
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody UserRegisterQueryInfo userRegisterQueryInfo) {
+    public ResponseEntity<?> registerUser(@RequestBody UserRegisterQueryInfo userRegisterQueryInfo) {
+
+        if (userRepository.existsByUserName(userRegisterQueryInfo.getUserName())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Username is already taken!");
+        }
 
         User newUser = new User(
                 userRegisterQueryInfo.getUserName(),
@@ -26,6 +33,7 @@ public class UserDatabaseController {
         );
 
         userRepository.insert(newUser);
+        return ResponseEntity.ok("User registered successfully!");
     }
 
     @DeleteMapping("/delete")
