@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,6 +16,7 @@ public class UserRegisterQueryInfo {
     private String name;
     private String familyName;
     private Integer age;
+    private List<String> roles;
     private LocalDateTime registrationTime;
 
 }

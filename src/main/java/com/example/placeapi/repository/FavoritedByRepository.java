@@ -12,4 +12,8 @@ public interface FavoritedByRepository extends MongoRepository<FavoritePlace, St
 
     List<FavoritePlace> findFavoritePlaceByUserName(String UserId);
 
+    Boolean existsByUserNameAndPlaceID(String username, String placeId);
+
+    void deleteByUserNameAndPlaceID(String username, String placeId);
+
 }

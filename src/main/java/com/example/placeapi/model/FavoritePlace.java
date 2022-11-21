@@ -16,6 +16,7 @@ public class FavoritePlace {
 
     private String placeID;
     private String userName;
+    private String placeName;
     private LocalDateTime since;
 
 }

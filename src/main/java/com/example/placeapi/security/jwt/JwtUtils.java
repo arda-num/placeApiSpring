@@ -1,6 +1,6 @@
 package com.example.placeapi.security.jwt;
 
-import com.example.placeapi.model.User;
+import com.example.placeapi.model.CustomUserDetail;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +22,10 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetail customer = (CustomUserDetail) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject((user.getUserName()))
+                .setSubject((customer.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

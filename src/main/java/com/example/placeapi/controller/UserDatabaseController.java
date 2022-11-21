@@ -1,11 +1,9 @@
 package com.example.placeapi.controller;
 
 
-import com.example.placeapi.model.User;
-import com.example.placeapi.model.UserRegisterQueryInfo;
-import com.example.placeapi.repository.UserRepository;
+import com.example.placeapi.model.Customer;
+import com.example.placeapi.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,31 +11,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserDatabaseController {
 
     @Autowired
-    private UserRepository userRepository;
+    private CustomerRepository userRepository;
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegisterQueryInfo userRegisterQueryInfo) {
-
-        if (userRepository.existsByUserName(userRegisterQueryInfo.getUserName())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: Username is already taken!");
-        }
-
-        User newUser = new User(
-                userRegisterQueryInfo.getUserName(),
-                userRegisterQueryInfo.getUserPassword(),
-                userRegisterQueryInfo.getName(),
-                userRegisterQueryInfo.getFamilyName(),
-                userRegisterQueryInfo.getAge()
-        );
-
-        userRepository.insert(newUser);
-        return ResponseEntity.ok("User registered successfully!");
-    }
 
     @DeleteMapping("/delete")
-    public void deleteUser(@RequestParam("userid") String userId) {
-        userRepository.deleteById(userId);
+    public void deleteUser(@RequestParam("userName") String username) {
+        userRepository.deleteById(username);
     }
+
+    @GetMapping("/info")
+    public Customer getUser(@RequestParam("username") String username) {
+        return userRepository.findCustomerByUsername(username).get();
+    }
+
 }
+

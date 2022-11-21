@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
@@ -17,7 +16,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Document
 public class Place {
-    @Id
+    private String createdBy;
     @JsonProperty("fsq_id")
     private String fsqId;
     private String name;

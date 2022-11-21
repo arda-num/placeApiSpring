@@ -2,7 +2,10 @@ package com.example.placeapi.controller;
 
 
 import com.example.placeapi.model.FavoritePlace;
+import com.example.placeapi.model.Place;
+import com.example.placeapi.model.SetFavoriteQuery;
 import com.example.placeapi.repository.FavoritedByRepository;
+import com.example.placeapi.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,21 +20,25 @@ public class FavoritePlaceController {
     @Autowired
     private FavoritedByRepository favoritedByRepository;
 
-    @GetMapping("/set")
-    public void setFavorite(@RequestParam("placeid") String placeId, @RequestParam("username") String userName) {
-        FavoritePlace favoritePlace = new FavoritePlace(placeId, userName, LocalDateTime.now());
-        favoritedByRepository.insert(favoritePlace);
-    }
+    @Autowired
+    private PlaceRepository placeRepository;
 
-    @DeleteMapping("/delete")
-    public void deleteFavorite(@RequestParam("placeid") String placeId, @RequestParam("username") String userName) {
-        Optional<FavoritePlace> favoritePlace = favoritedByRepository.findFavoritePlaceByPlaceIDAndUserName(placeId, userName);
-        favoritePlace.ifPresent(place -> favoritedByRepository.delete(place));
+    @PostMapping("/set")
+    public void setFavorite(@RequestBody SetFavoriteQuery setFavoriteQuery) {
+        Optional<Place> place = placeRepository.findPlaceByFsqIdAndCreatedBy(setFavoriteQuery.getPlaceid(), setFavoriteQuery.getUsername());
+        if (favoritedByRepository.existsByUserNameAndPlaceID(setFavoriteQuery.getUsername(), setFavoriteQuery.getPlaceid())) {
+            favoritedByRepository.deleteByUserNameAndPlaceID(setFavoriteQuery.getUsername(), setFavoriteQuery.getPlaceid());
+        } else {
+            String placeName = place.get().getName();
+            FavoritePlace favoritePlace = new FavoritePlace(setFavoriteQuery.getPlaceid(), setFavoriteQuery.getUsername(), placeName, LocalDateTime.now());
+            favoritedByRepository.insert(favoritePlace);
+        }
+
     }
 
     @GetMapping("/getFavFromUser")
-    public List<FavoritePlace> getFavoritePlacesFromUser(@RequestParam("username") String userName) {
-        return favoritedByRepository.findFavoritePlaceByUserName(userName);
+    public List<FavoritePlace> getFavoritePlacesFromUser(@RequestParam("username") String username) {
+        return favoritedByRepository.findFavoritePlaceByUserName(username);
     }
     //@GetMapping
     //public List<Place> getAllFavorites(){

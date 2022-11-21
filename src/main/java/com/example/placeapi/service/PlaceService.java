@@ -36,7 +36,7 @@ public class PlaceService {
 
 
     @Cacheable("placeSearchCache")
-    public List<Place> searchPlace(float latitude, float longitude) {
+    public List<Place> searchPlace(float latitude, float longitude, String username) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(SEARCH_URL)
                 .queryParam("ll", latitude + "," + longitude); // uri
@@ -48,8 +48,9 @@ public class PlaceService {
         if (response != null) {
             results = response.getResults();
             results.forEach(place -> {
-                        log.info("Found a place: " + place + "\n Saving to database...");
-                        placeRepository.save(place); // favoriler silinir!!!
+                log.info("Found a place: " + place + "\n Saving to database...");
+                place.setCreatedBy(username);
+                placeRepository.save(place); // favoriler silinir!!!
                     }
             );
 

@@ -11,5 +11,6 @@ public class SearchPlaceQuery {
 
     private float latitude;
     private float longitude;
+    private String username;
 
 }
