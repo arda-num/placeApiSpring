@@ -16,6 +16,8 @@ The fully fledged server uses the following:
 
 * Spring Framework
 * SpringBoot
+* MongoDB
+* Docker
 
 ## Endpoints
 
