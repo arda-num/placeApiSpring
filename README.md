@@ -2,7 +2,7 @@
 <a href="#"><img src="https://img.shields.io/badge/Spring Boot-v0.79.0-63a871?logo=spring&style=for-the-badge" /></a>
 <a href="#"><img src="https://img.shields.io/badge/Mongodb-v8.0.30-green?logo=mongodb&style=for-the-badge" /></a>
 
-# Readme: PlaceApi-Spring-Rest
+# Readme: PlaceApi-Spring
 
 An example of a WebServer developed using Spring & SpringBoot and MongoDb for noSQL database. Also supports user
 authentication with JWT tokenization.
