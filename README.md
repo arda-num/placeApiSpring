@@ -19,6 +19,9 @@ The fully fledged server uses the following:
 
 ## Endpoints
 
+<img width="832" alt="Screenshot 2022-11-21 at 12 12 05" src="https://user-images.githubusercontent.com/78916039/203012966-4cc5787a-c2d8-4c90-856f-d464ed2b5744.png">
+
+
 ## Dependencies
 
 There are a number of third-party dependencies used in the project. Browse the Maven pom.xml file for details of
