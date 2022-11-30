@@ -1,13 +1,12 @@
 package com.example.placeapi.repository;
 
 import com.example.placeapi.model.Place;
+import com.example.placeapi.model.PlaceId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface PlaceRepository extends MongoRepository<Place, String> { // Class, ID
-    List<Place> findPlaceByCreatedBy(String username);
+public interface PlaceRepository extends MongoRepository<Place, PlaceId> { // Class, ID
 
-    Optional<Place> findPlaceByFsqIdAndCreatedBy(String id, String username);
+    Optional<Place> findPlaceByPlaceid(PlaceId placeid);
 }

@@ -2,10 +2,10 @@ package com.example.placeapi.model;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
@@ -16,10 +16,10 @@ import java.util.Map;
 @NoArgsConstructor
 @Document
 public class Place {
-    private String createdBy;
-    @JsonProperty("fsq_id")
-    private String fsqId;
+    @Id
+    private PlaceId placeid;
     private String name;
+    private String fsq_id;
     private Map<String, Object> extraData;
 
     @JsonAnyGetter

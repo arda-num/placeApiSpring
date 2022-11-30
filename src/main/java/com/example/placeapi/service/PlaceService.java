@@ -1,6 +1,7 @@
 package com.example.placeapi.service;
 
 import com.example.placeapi.model.Place;
+import com.example.placeapi.model.PlaceId;
 import com.example.placeapi.model.PlaceResponse;
 import com.example.placeapi.repository.PlaceRepository;
 import lombok.extern.apachecommons.CommonsLog;
@@ -48,9 +49,11 @@ public class PlaceService {
         if (response != null) {
             results = response.getResults();
             results.forEach(place -> {
-                log.info("Found a place: " + place + "\n Saving to database...");
-                place.setCreatedBy(username);
-                placeRepository.save(place); // favoriler silinir!!!
+                        log.info("Found a place: " + place + "\n Saving to database...");
+
+                        PlaceId placeid = new PlaceId(username, place.getFsq_id());
+                        place.setPlaceid(placeid);
+                        placeRepository.save(place); // favoriler silinir!!!
                     }
             );
 

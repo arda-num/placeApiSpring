@@ -13,7 +13,7 @@ public class CacheConfig {
 
     @Bean
     public Cache placeSearchCache() {
-        return new CaffeineCache("placeSearchCache", Caffeine.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).build());
+        return new CaffeineCache("placeSearchCache", Caffeine.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS).build());
 
     }
 
